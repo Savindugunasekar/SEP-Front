@@ -1,23 +1,38 @@
-import logo from './logo.svg';
-import './App.css';
+import AdminDash from './components/AdminDash';
+import Authorization from './components/Authorization';
+import OrphanageForm from './components/OrphanageForm';
+import Orphanage from './components/Orphanage'
+import { BrowserRouter, Route, Routes } from 'react-router-dom';
 
 function App() {
   return (
-    <div className="App">
-      <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <p>
-          Edit <code>src/App.js</code> and save to reload.
-        </p>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Learn React
-        </a>
-      </header>
+    <div>
+      <BrowserRouter>
+        <Routes>
+          
+          <Route path="/" element={<Authorization/>} />
+          
+          
+          <Route path="/admin" element={<AdminDash />} />
+
+          <Route path="/admin/addOrphanage" element={<OrphanageForm />} />
+
+
+          <Route path='/orphanage' element={<Orphanage/>}>
+
+          <Route path=':orphanageId' element={<Orphanage/>}/>
+
+          </Route>
+
+
+          
+            
+          
+          
+          
+          
+        </Routes>
+      </BrowserRouter>
     </div>
   );
 }
