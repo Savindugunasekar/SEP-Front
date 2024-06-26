@@ -53,7 +53,7 @@ const AdminDash = () => {
 
 
       <button className='mx-20 my-3 py-3 text-white bg-primary px-2'>
-        <Link to={'/admin/addOrphanage'}>Add an orphanage</Link>
+        <Link to={'/addOrphanage'}>Add an orphanage</Link>
       </button>
 
       <div className='grid mb-3 md:grid-cols-2'>

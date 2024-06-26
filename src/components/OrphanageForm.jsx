@@ -1,52 +1,61 @@
 import React, { useState } from "react";
 
+import useAuth from "../hooks/useAuth";
+import { axiosPrivate } from "../api/axios";
+import useAxiosPrivate from "../hooks/useAxiosPrivate";
+
+
 const OrphanageForm = () => {
+
+  const axiosPrivate = useAxiosPrivate()
+
+
+  // State with required fields only
   const [orphanageDetails, setOrphanageDetails] = useState({
-    orphanagename: '',
-    address: '',
+    orphanagename: "",
+    address: "",
     capacity: 0,
-    tel: '',
-    facilities: '',
-    funding: '',
-    headname: '',
-    email: ''
+    telno: "",
+    head_email: "",
   });
 
-const detailHandler = (e)=>{
-  setOrphanageDetails({...orphanageDetails,[e.target.name]:e.target.value})
-}
+  // Handler to update the state when input changes
+  const detailHandler = (e) => {
+    setOrphanageDetails({
+      ...orphanageDetails,
+      [e.target.name]: e.target.value,
+    });
+  };
 
+  // Function to handle form submission using axios
   const addOrphanage = async (e) => {
     e.preventDefault();
     try {
-      const response = await fetch('http://localhost:4000/addOrphanage', {
-        method: 'POST',
+      const response = await axiosPrivate.post("/orphanage", orphanageDetails, {
         headers: {
-          'Content-Type': 'application/json'
+
+         
+
+          "Content-Type": "application/json",
         },
-        body: JSON.stringify(orphanageDetails)
       });
 
-      if (response.ok) {
-        console.log('Orphanage added successfully');
-        
+      if (response.status === 200) {
+        console.log("Orphanage added successfully");
+
+        // Reset form fields
         setOrphanageDetails({
-          orphanagename: '',
-          address: '',
+          orphanagename: "",
+          address: "",
           capacity: 0,
-          tel: '',
-          facilities: '',
-          funding: '',
-          headname: '',
-          email: ''
+          telno: "",
+          head_email: "",
         });
       } else {
-        console.error('Failed to add orphanage');
-        
+        console.error("Failed to add orphanage");
       }
     } catch (error) {
-      console.error('An error occurred:', error);
-      
+      console.log(error);
     }
   };
 
@@ -60,7 +69,10 @@ const detailHandler = (e)=>{
       <form className="flex flex-col gap-5" onSubmit={addOrphanage}>
         <div className="flex flex-col gap-5 md:flex-row">
           <div className="flex flex-col w-full">
-            <label className="text-md font-semibold mb-3" htmlFor="orphanagename">
+            <label
+              className="text-md font-semibold mb-3"
+              htmlFor="orphanagename"
+            >
               Orphanage Name:
             </label>
             <input
@@ -108,16 +120,16 @@ const detailHandler = (e)=>{
           </div>
 
           <div className="flex flex-col w-full">
-            <label className="text-md font-semibold mb-3" htmlFor="tel">
+            <label className="text-md font-semibold mb-3" htmlFor="telno">
               Tel Number:
             </label>
             <input
               className="w-full bg-gray-100 h-[40px] rounded-md px-4 py-3 border-none focus-visible:ring-primary !important"
               type="tel"
               onChange={detailHandler}
-              id="tel"
-              name="tel"
-              value={orphanageDetails.tel}
+              id="telno"
+              name="telno"
+              value={orphanageDetails.telno}
               required
             />
           </div>
@@ -125,61 +137,16 @@ const detailHandler = (e)=>{
 
         <div className="flex flex-col gap-5 md:flex-row">
           <div className="flex flex-col w-full">
-            <label className="text-md font-semibold mb-3" htmlFor="facilities">
-              Facilities:
-            </label>
-            <textarea
-              className="w-full bg-gray-100 h-[150px] rounded-md px-4 py-3 border-none focus-visible:ring-primary !important"
-              id="facilities"
-              onChange={detailHandler}
-              name="facilities"
-              value={orphanageDetails.facilities}
-              required
-            ></textarea>
-          </div>
-
-          <div className="flex flex-col w-full">
-            <label className="text-md font-semibold mb-3" htmlFor="funding">
-              Funding Sources:
-            </label>
-            <textarea
-              className="w-full bg-gray-100 h-[150px] rounded-md px-4 py-3 border-none focus-visible:ring-primary !important"
-              id="funding"
-              onChange={detailHandler}
-              name="funding"
-              value={orphanageDetails.funding}
-              required
-            ></textarea>
-          </div>
-        </div>
-
-        <div className="flex flex-col gap-5 md:flex-row">
-          <div className="flex flex-col w-full">
-            <label className="text-md font-semibold mb-3" htmlFor="headname">
-              Name of Orphanage Head:
-            </label>
-            <input
-              className="w-full bg-gray-100 h-[40px] rounded-md px-4 py-3 border-none focus-visible:ring-primary !important"
-              type="text"
-              id="headname"
-              onChange={detailHandler}
-              name="headname"
-              value={orphanageDetails.headname}
-              required
-            />
-          </div>
-
-          <div className="flex flex-col w-full">
-            <label className="text-md font-semibold mb-3" htmlFor="email">
-              Email:
+            <label className="text-md font-semibold mb-3" htmlFor="head_email">
+              Head Email:
             </label>
             <input
               className="w-full bg-gray-100 h-[40px] rounded-md px-4 py-3 border-none focus-visible:ring-primary !important"
               type="email"
-              id="email"
+              id="head_email"
               onChange={detailHandler}
-              name="email"
-              value={orphanageDetails.email}
+              name="head_email"
+              value={orphanageDetails.head_email}
               required
             />
           </div>
